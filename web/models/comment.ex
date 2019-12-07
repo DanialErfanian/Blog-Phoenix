@@ -4,17 +4,21 @@ defmodule BlogPhoenix.Comment do
   schema "comments" do
     field :name, :string
     field :content, :string
-    belongs_to :post, BlogPhoenix.Post
+    belongs_to :post, BlogPhoenix.Post, foreign_key: :post_id
 
-    timestamps()
+    timestamps
   end
 
+  @required_fields ~w(name content post_id)
+  @optional_fields ~w()
+
   @doc """
-  Builds a changeset based on the `struct` and `params`.
+  Creates a changeset based on the `model` and `params`.
+  If `params` are nil, an invalid changeset is returned
+  with no validation performed.
   """
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [:name, :content])
-    |> validate_required([:name, :content])
+  def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
   end
 end
