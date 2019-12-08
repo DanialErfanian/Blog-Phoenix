@@ -10,11 +10,12 @@
     </tr>
   </thead>
   <tbody>
-<%= for post <- @posts do %>
+<%= for {post, comments_count} <- @posts do %>
     <tr>
       <td><%= post.title %></td>
       <td><%= post.body %></td>
 
+      <td class="text-right"><%= comments_count %></td>
       <td class="text-right">
         <%= link "Show", to: post_path(@conn, :show, post), class: "btn btn-default btn-xs" %>
         <%= link "Edit", to: post_path(@conn, :edit, post), class: "btn btn-default btn-xs" %>
